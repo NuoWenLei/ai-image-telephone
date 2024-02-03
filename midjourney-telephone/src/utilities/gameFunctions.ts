@@ -34,7 +34,8 @@ export async function generateImage(
   // TODO: use latent consistent image gen
   // source: https://docs.getimg.ai/reference/postlatentconsistencyimagetoimage
   const data = {
-    model: "lcm-realistic-vision-v5-1",
+    // model: "lcm-realistic-vision-v5-1",
+    model: "stable-diffusion-v1-5",
     prompt: prompt,
     negative_prompt: "Disfigured, cartoon, blurry",
     // width: 640,
@@ -49,7 +50,8 @@ export async function generateImage(
 
   console.log(prompt);
 
-  const url = "https://api.getimg.ai/v1/latent-consistency/image-to-image";
+  // const url = "https://api.getimg.ai/v1/latent-consistency/image-to-image";
+  const url = "https://api.getimg.ai/v1/stable-diffusion/image-to-image";
 
   let headers = new Headers();
 
