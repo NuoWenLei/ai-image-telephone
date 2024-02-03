@@ -12,6 +12,7 @@ import {
 import { firestore, storage } from "./firebaseConfig";
 import { getDownloadURL, ref } from "firebase/storage";
 import { Game, GameAndActiveThreads, Guess, GuessAndId } from "../types";
+import { getBase64FromUrl } from "../gameFunctions";
 
 export async function getFirestoreDoc(
   collection: string,
@@ -103,4 +104,9 @@ export async function slideshow(guessId: string): Promise<string[]> {
     ).data() as Guess;
   }
   return slideshow;
+}
+
+export async function getBase64FromFirebase(image_ref: string) {
+  const downloadUrl = await getDownloadURL(ref(storage, image_ref));
+  return getBase64FromUrl(downloadUrl);
 }
