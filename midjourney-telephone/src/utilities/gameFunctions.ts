@@ -88,7 +88,7 @@ export async function createNewGame(
   if (randomImage) {
     imageString = await getRandomImage();
   } else {
-    imageString = await generateImage(description!, seed);
+    imageString = await generateImage(description!, "", seed);
   }
 
   const imageFilename = firestoreAutoId() + ".jpeg";
