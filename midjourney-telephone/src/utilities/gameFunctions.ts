@@ -35,11 +35,11 @@ export async function generateImage(
   // source: https://docs.getimg.ai/reference/postlatentconsistencyimagetoimage
   const data = {
     model: "lcm-realistic-vision-v5-1",
-    prompt: "mdjrny-v4 style, realistic, " + prompt,
+    prompt: prompt,
     negative_prompt: "Disfigured, cartoon, blurry",
     // width: 640,
     // height: 640,
-    strength: 0.5,
+    strength: 0.95,
     steps: 6,
     image: bs64image,
     // guidance: 9,
