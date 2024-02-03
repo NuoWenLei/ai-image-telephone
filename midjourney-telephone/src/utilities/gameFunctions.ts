@@ -6,7 +6,7 @@ import {
 import { Game, GameType, Guess, GuessAndId } from "./types";
 import { bs64image } from "./imageConst";
 
-const getBase64FromUrl = async (
+export const getBase64FromUrl = async (
   url: string
 ): Promise<string | null | ArrayBuffer> => {
   const data = await fetch(url);
