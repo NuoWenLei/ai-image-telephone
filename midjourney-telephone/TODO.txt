@@ -1,0 +1,4 @@
+Things to implement:
+- fix resizing for \daily and \create pages on mobile
+- private game should generate private url rather than invite via emails
+- add \find
