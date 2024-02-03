@@ -5,6 +5,7 @@ import {
   DESCRIPTION_MIN_LEN,
 } from "@/utilities/constants";
 import { generateImage, submitGuess } from "@/utilities/gameFunctions";
+import { bs64image } from "@/utilities/imageConst";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -34,7 +35,7 @@ export default function Page() {
       return;
     }
 
-    const base64Image = await generateImage(inputState, "TODO", 42);
+    const base64Image = await generateImage(inputState, bs64image, 42);
 
     if (base64Image) {
       setImg(base64Image);
