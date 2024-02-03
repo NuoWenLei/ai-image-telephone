@@ -4,6 +4,7 @@ import {
   updateGameWithGuess,
 } from "./firebase/firebaseWriteFunctions";
 import { Game, GameType, Guess, GuessAndId } from "./types";
+import { bs64image } from "./imageConst";
 
 const getBase64FromUrl = async (
   url: string
@@ -36,13 +37,17 @@ export async function generateImage(
     model: "lcm-realistic-vision-v5-1",
     prompt: "mdjrny-v4 style, realistic, " + prompt,
     negative_prompt: "Disfigured, cartoon, blurry",
-    width: 640,
-    height: 640,
-    steps: 25,
-    guidance: 9,
+    // width: 640,
+    // height: 640,
+    strength: 0.5,
+    steps: 6,
+    image: bs64image,
+    // guidance: 9,
     seed: seed,
     output_format: "jpeg",
   };
+
+  console.log(prompt);
 
   const url = "https://api.getimg.ai/v1/latent-consistency/image-to-image";
 
@@ -53,6 +58,7 @@ export async function generateImage(
     `Bearer ${process.env.NEXT_PUBLIC_IMG_API_KEY}`
   );
   headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
 
   const res = await fetch(url, {
     method: "POST",

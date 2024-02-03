@@ -15,4 +15,4 @@ export const initialUser: AuthUser = {
 
 export const GAME_NAME_MAX_LEN: number = 30;
 export const DESCRIPTION_MAX_LEN: number = 500;
-export const DESCRIPTION_MIN_LEN: number = 150;
+export const DESCRIPTION_MIN_LEN: number = 10;
