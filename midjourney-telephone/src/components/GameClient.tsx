@@ -20,7 +20,14 @@ import {
   DESCRIPTION_MAX_LEN,
   DESCRIPTION_MIN_LEN,
 } from "@/utilities/constants";
-import Swipes from "./Swipes";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+import { Pagination, Navigation } from "swiper/modules";
 
 interface GameClientProp {
   game: GameAndId;
@@ -159,7 +166,7 @@ export default function GameClient({
       {loading && (
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       )}
-      <main className="flex h-full w-full flex-col items-center justify-between pb-4">
+      <main className="flex flex-col items-center justify-between pb-4 h-full w-full">
         {img && !slideshowResults ? (
           <img
             className="h-96 w-96 xl:h-[30rem] xl:w-[30rem]"
@@ -199,9 +206,71 @@ export default function GameClient({
             </button>
           </>
         ) : (
-          <div className="h-full text-center text-lg">Your guess</div>
+          <div className="text-center text-lg">Your guess</div>
         )}
       </main>
     </>
+  );
+}
+
+function Swipes({ urls, prompts }: { urls: string[]; prompts: string[] }) {
+  const [imageClicked, setImageClicked] = useState<boolean>(false);
+  function onClick() {
+    setImageClicked(!imageClicked);
+  }
+  return (
+    <div className="h-screen w-screen flex flex-col justify-center">
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={30}
+        loop={false}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        className="h-96 w-3/4 [&_.swiper-pagination-bullet-active]:bg-white [&_.swiper-button-prev]:text-white [&_.swiper-button-next]:text-white"
+      >
+        {urls.map((item, index) => (
+          <SwiperSlide key={item}>
+            <div
+              className="h-full w-full flex flex-row justify-center item-center rounded-lg overflow-hidden"
+              key={index}
+            >
+              <button
+                className="border-white-100 flex flex-col items-center"
+                onClick={onClick}
+              >
+                <p
+                  className={
+                    "text-white text-xl " + (!imageClicked && "opacity-0")
+                  }
+                >
+                  {prompts[index]}
+                </p>
+                <img
+                  src={item}
+                  alt={"Image " + index}
+                  className="rounded-lg overflow-hidden hover:opacity-60 hover:brightness-110 transition h-full"
+                />
+              </button>
+              {/* {imageClicked ? (
+                <button className="border-white-100 h-full" onClick={onClick}>
+                  <p className="text-white text-xl">{prompts[index]}</p>
+                </button>
+              ) : (
+                <button className="border-white-100" onClick={onClick}>
+                  <img
+                    src={item}
+                    alt={"Image " + index}
+                    className="rounded-lg overflow-hidden hover:opacity-60 hover:brightness-110 transition h-full"
+                  />
+                </button>
+              )} */}
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
