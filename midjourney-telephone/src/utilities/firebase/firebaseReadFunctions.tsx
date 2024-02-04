@@ -90,20 +90,24 @@ export async function getGameAndActiveThreads(
   return null;
 }
 
-export async function slideshow(guessId: string): Promise<string[]> {
+export async function slideshow(
+  guessId: string
+): Promise<[string[], string[]]> {
   // assume function called readGuess that takes in a guess id and then returns of type Guess which has parentGuess
   // and keeps going back until it reaches something where the parent guess is an empty string
   let slideshow: string[] = [];
+  let prompts: string[] = [];
   let currGuess: Guess = (
     await getFirestoreDoc("Guesses", guessId)
   ).data() as Guess;
   while (currGuess.parentGuess != "") {
     slideshow.push(currGuess.imagePath);
+    prompts.push(currGuess.description);
     currGuess = (
       await getFirestoreDoc("Guesses", currGuess.parentGuess)
     ).data() as Guess;
   }
-  return slideshow;
+  return [slideshow, prompts];
 }
 
 export async function getBase64FromFirebase(image_ref: string) {

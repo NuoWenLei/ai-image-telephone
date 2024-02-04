@@ -33,6 +33,7 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
   const [guessed, setGuessed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [slideshowResults, setSlideshowResults] = useState<string[]>();
+  const [slideshowPrompts, setSlideshowPrompts] = useState<string[]>();
 
   const authState = useContext(AuthContext);
   const router = useRouter();
@@ -122,9 +123,11 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
       );
       if (typeof newGuessId == "string") {
         const imageSlideshow = await slideshow(newGuessId);
-        const imageUrlPromises = imageSlideshow.map(
+        const imageUrlPromises = imageSlideshow[0].map(
           async (imagePath: string) => await getImageURL(imagePath)
         );
+        const imagePromptPromises = imageSlideshow[1];
+        setSlideshowPrompts(imagePromptPromises);
         const imageUrls = (await Promise.all(imageUrlPromises)).filter(
           (url: string | null) => url
         ) as string[];
@@ -154,8 +157,8 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
             src={img}
             alt="generated image"
           />
-        ) : img && slideshowResults ? (
-          swipes(slideshowResults)
+        ) : img && slideshowResults && slideshowPrompts ? (
+          swipes(slideshowResults, slideshowPrompts)
         ) : (
           <div className="h-96 w-96 text-center flex flex-col justify-center">
             <p>Loading...</p>
