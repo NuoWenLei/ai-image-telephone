@@ -254,19 +254,6 @@ function Swipes({ urls, prompts }: { urls: string[]; prompts: string[] }) {
                   className="rounded-lg overflow-hidden hover:opacity-60 hover:brightness-110 transition h-full"
                 />
               </button>
-              {/* {imageClicked ? (
-                <button className="border-white-100 h-full" onClick={onClick}>
-                  <p className="text-white text-xl">{prompts[index]}</p>
-                </button>
-              ) : (
-                <button className="border-white-100" onClick={onClick}>
-                  <img
-                    src={item}
-                    alt={"Image " + index}
-                    className="rounded-lg overflow-hidden hover:opacity-60 hover:brightness-110 transition h-full"
-                  />
-                </button>
-              )} */}
             </div>
           </SwiperSlide>
         ))}
