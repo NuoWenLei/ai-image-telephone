@@ -100,14 +100,14 @@ export default function Home() {
       <div className="w-1/3 h-2/3 flex flex-row mx-auto gap-14">
         <button
           className={"w-2/3 h-full " + classes2}
-          onClick={() => checkLogin("/daily")}
+          onClick={() => checkLogin("/creative")}
           disabled={loading}
         >
           <span className="mx-auto">CREATIVE</span>
         </button>
         <button
           className={"w-2/3 h-full " + classes1}
-          onClick={() => checkLogin("/daily")}
+          onClick={() => checkLogin("/survival")}
           disabled={loading}
         >
           <span className="mx-auto">SURVIVAL</span>
