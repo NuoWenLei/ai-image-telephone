@@ -3,6 +3,7 @@ import {
   saveImage,
   updateGameWithGuess,
 } from "./firebase/firebaseWriteFunctions";
+import { bs64_image } from "./imageConstant";
 import { DiffusionSettings, Game, GameType, Guess, GuessAndId } from "./types";
 
 export const getBase64FromUrl = async (
@@ -32,7 +33,7 @@ export async function generateImage(
   strength: number = 0.95,
   steps: number = 6,
   model: string = "stable-diffusion-v1-5",
-  negative_prompt: string = "Disfigured, cartoon, blurry",
+  negative_prompt: string = "Disfigured, cartoon, blurry"
 ) {
   // TODO: use latent consistent image gen
   // source: https://docs.getimg.ai/reference/postlatentconsistencyimagetoimage

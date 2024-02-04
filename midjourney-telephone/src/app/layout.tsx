@@ -10,7 +10,7 @@ import { AuthProvider } from "@/utilities/firebase/firebaseAuthProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Midjourney AI Telephone",
+  title: "TelePhoto - Telephone with Stable Diffusion",
 };
 
 export default function RootLayout({
