@@ -2,9 +2,14 @@
 
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { generateImage, submitGuess } from "@/utilities/gameFunctions";
+import {
+  generateImage,
+  getBase64FromUrl,
+  submitGuess,
+} from "@/utilities/gameFunctions";
 import { GameAndId, GuessAndId } from "@/utilities/types";
 import {
+  getBase64FromFirebase,
   getImageURL,
   getUserGuess,
 } from "@/utilities/firebase/firebaseReadFunctions";
@@ -78,9 +83,29 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
       return;
     }
 
+    if (!img) {
+      toast.error("No previous image");
+      setLoading(false);
+      return;
+    }
+
+    // console.log(img);
+
+    // console.log(await fetch(img));
+
+    const res = await getBase64FromUrl(img);
+
+    if (!(typeof res == "string")) {
+      toast.error("base64 query error");
+      setLoading(false);
+      return;
+    }
+
+    const base64EncodedRes = res.split("base64,")[1];
+
     const base64Image = await generateImage(
       inputState,
-      "",
+      base64EncodedRes,
       prevGuess.guess.seed
     );
 

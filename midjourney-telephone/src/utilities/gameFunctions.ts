@@ -6,7 +6,7 @@ import {
 import { Game, GameType, Guess, GuessAndId } from "./types";
 import { bs64image } from "./imageConst";
 
-const getBase64FromUrl = async (
+export const getBase64FromUrl = async (
   url: string
 ): Promise<string | null | ArrayBuffer> => {
   const data = await fetch(url);
@@ -34,7 +34,7 @@ export async function generateImage(
   // TODO: use latent consistent image gen
   // source: https://docs.getimg.ai/reference/postlatentconsistencyimagetoimage
   const data = {
-    // model: "lcm-realistic-vision-v5-1",
+
     model: "stable-diffusion-v1-5",
     prompt: prompt,
     negative_prompt: "Disfigured, cartoon, blurry",
@@ -42,7 +42,7 @@ export async function generateImage(
     // height: 640,
     strength: 0.95,
     steps: 6,
-    image: bs64image,
+    image: base64_image,
     // guidance: 9,
     seed: seed,
     output_format: "jpeg",
@@ -50,7 +50,6 @@ export async function generateImage(
 
   console.log(prompt);
 
-  // const url = "https://api.getimg.ai/v1/latent-consistency/image-to-image";
   const url = "https://api.getimg.ai/v1/stable-diffusion/image-to-image";
 
   let headers = new Headers();
