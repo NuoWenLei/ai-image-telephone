@@ -20,7 +20,7 @@ import {
   DESCRIPTION_MAX_LEN,
   DESCRIPTION_MIN_LEN,
 } from "@/utilities/constants";
-import Swipes from "@/components/Swipes";
+import Swipes from "./Swipes";
 
 interface GameClientProp {
   game: GameAndId;
