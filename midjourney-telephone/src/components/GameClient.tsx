@@ -76,7 +76,7 @@ export default function GameClient({
         }
       })();
     }
-  }, [authState.user, prevGuess.guess]);
+  }, [authState.user, prevGuess.guess, game, router]);
 
   async function onGenerate() {
     setLoading(true);

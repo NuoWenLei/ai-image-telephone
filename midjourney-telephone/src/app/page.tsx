@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { getFirestoreDoc } from "@/utilities/firebase/firebaseReadFunctions";
 import { Game } from "@/utilities/types";
+import Link from "next/link";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -115,29 +116,23 @@ export default function Home() {
         >
           <span className="mx-auto">SURVIVAL</span>
         </button>
-        {/* <div className="w-2/3 flex flex-col gap-6">
-          <button className={"w-full h-1/3 text-2xl " + classes} disabled={loading} onClick={() => checkLogin("/create")}>
-            <span className="mx-auto">CREATE GAME</span>
-          </button>
-          <div className="w-full h-1/3 flex flex-row gap-6">
-            <input type="text" placeholder="JOIN GAME" onChange={(e) => setGameIdInput(e.target.value)}
-            className={"w-3/4 h-full rounded-lg text-2xl bg-black rounded-lg ring-[8px] ring-white outline-none px-2"}/>
-            <button className={"w-1/4 h-full text-6xl " + classes} disabled={loading} onClick={checkJoin}>
-              <ChevronRightIcon fontSize="inherit" className="mx-auto"/>
-            </button>
-          </div>
-          <button className={"w-full h-1/3 text-2xl " + classes} disabled={loading} onClick={() => checkLogin("/games")}>
-            <span className="mx-auto">FIND GAMES</span>
-          </button>
-        </div> */}
       </div>
       <button
-        className={"w-1/3 h-1/4 my-14" + classes3}
+        className={"w-1/3 h-1/4 mt-14 mb-6 " + classes3}
         onClick={() => checkLogin("/f_up")}
         disabled={loading}
       >
         <span className="mx-auto">TRY TO F*CK IT UP</span>
       </button>
+      <div className="flex flex-row w-1/3 justify-end mx-auto">
+        <button
+          type="button"
+          onClick={() => checkLogin("/previous")}
+          className="text-gray-300 hover:text-white duration-300 text-sm font-light underline underline-offset-2"
+        >
+          See your previous guesses
+        </button>
+      </div>
     </main>
   );
 }

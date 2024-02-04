@@ -33,7 +33,7 @@ export default function GameCreateClient({
       router.replace("/");
       return;
     }
-  }, [userEmail]);
+  }, [userEmail, router]);
 
   function updateGameName(s: string) {
     setGameName(

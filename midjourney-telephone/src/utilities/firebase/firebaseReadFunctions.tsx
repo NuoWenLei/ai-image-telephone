@@ -23,6 +23,28 @@ export async function getFirestoreDoc(
   return instance;
 }
 
+export async function getAllUserGuesses(userId: string): Promise<GuessAndId[]> {
+  const guessCollectionRef = collection(firestore, "Guesses");
+  const q = query(guessCollectionRef, where("userId", "==", userId));
+
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    return [];
+  }
+
+  const guessesAndIds: GuessAndId[] = querySnapshot.docs.map(
+    (docData): GuessAndId => {
+      return {
+        id: docData.id,
+        guess: docData.data() as Guess,
+      };
+    }
+  );
+
+  return guessesAndIds;
+}
+
 export async function getUserGuess(
   gameId: string,
   userId: string
