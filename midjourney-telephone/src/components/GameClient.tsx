@@ -12,6 +12,7 @@ import {
   getBase64FromFirebase,
   getImageURL,
   getUserGuess,
+  slideshow,
 } from "@/utilities/firebase/firebaseReadFunctions";
 import { AuthContext } from "@/utilities/firebase/firebaseAuthProvider";
 import { useRouter } from "next/navigation";
@@ -19,6 +20,7 @@ import {
   DESCRIPTION_MAX_LEN,
   DESCRIPTION_MIN_LEN,
 } from "@/utilities/constants";
+import swipes from "./swipes";
 
 interface GameClientProp {
   game: GameAndId;
@@ -30,6 +32,7 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
   const [inputState, setInputState] = useState<string>("");
   const [guessed, setGuessed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [slideshowResults, setSlideshowResults] = useState<string[]>();
 
   const authState = useContext(AuthContext);
   const router = useRouter();
@@ -45,7 +48,7 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
         if (game.game.users.includes(userEmail)) {
           // User already guessed in this game
           const userGuess = await getUserGuess(game.id, userEmail);
-          if (userGuess) {
+          if (userGuess && !game.game.allowReplay) {
             pathToGet = userGuess.guess.imagePath;
             setGuessed(true);
           }
@@ -110,14 +113,22 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
     );
 
     if (base64Image) {
-      const guessSubmissionStatus = await submitGuess(
+      const newGuessId = await submitGuess(
         game.id,
         authState.user!.email,
         base64Image,
         inputState,
         prevGuess
       );
-      if (guessSubmissionStatus) {
+      if (typeof newGuessId == "string") {
+        const imageSlideshow = await slideshow(newGuessId);
+        const imageUrlPromises = imageSlideshow.map(
+          async (imagePath: string) => await getImageURL(imagePath)
+        );
+        const imageUrls = (await Promise.all(imageUrlPromises)).filter(
+          (url: string | null) => url
+        ) as string[];
+        setSlideshowResults(imageUrls);
         setGuessed(true);
         setImg(base64Image);
         toast.success("Your guess has been submitted!");
@@ -137,12 +148,14 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       )}
       <main className="flex h-full w-full flex-col items-center justify-between pb-4">
-        {img ? (
+        {img && !slideshowResults ? (
           <img
             className="h-96 w-96 xl:h-[30rem] xl:w-[30rem]"
             src={img}
             alt="generated image"
           />
+        ) : img && slideshowResults ? (
+          swipes(slideshowResults)
         ) : (
           <div className="h-96 w-96 text-center flex flex-col justify-center">
             <p>Loading...</p>

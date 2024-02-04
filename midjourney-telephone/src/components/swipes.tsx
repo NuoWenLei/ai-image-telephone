@@ -18,12 +18,16 @@ export default function swipes(urls: string[]) {
         }}
         navigation={true}
         modules={[Pagination, Navigation]}
-        className="h-5/6 w-3/4 bg-[#b5c2bc] [&_.swiper-pagination-bullet-active]:bg-[#333827] [&_.swiper-button-prev]:text-[#333827] [&_.swiper-button-next]:text-[#333827]"
+        className="rounded-lg overflow-hidden h-5/6 w-3/4 [&_.swiper-pagination-bullet-active]:bg-white [&_.swiper-button-prev]:text-white [&_.swiper-button-next]:text-white"
       >
         {urls.map((item) => (
           <SwiperSlide key={item}>
-            <div className="flex flex-row h-full place-items-center px-12">
-              <img src={item} alt="Image 1" />
+            <div className="flex flex-row justify-center m-12 rounded-lg overflow-hidden">
+              <img
+                src={item}
+                alt="Image 1"
+                className="rounded-lg overflow-hidden"
+              />
             </div>
           </SwiperSlide>
         ))}

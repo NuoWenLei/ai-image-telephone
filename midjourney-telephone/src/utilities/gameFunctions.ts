@@ -34,7 +34,6 @@ export async function generateImage(
   // TODO: use latent consistent image gen
   // source: https://docs.getimg.ai/reference/postlatentconsistencyimagetoimage
   const data = {
-
     model: "stable-diffusion-v1-5",
     prompt: prompt,
     negative_prompt: "Disfigured, cartoon, blurry",
@@ -76,7 +75,15 @@ export async function createNewDailyGame(): Promise<Guess | null> {
   const d = new Date();
   const dateString = d.toISOString().split("T")[0];
   const gameId = `daily_${dateString}`;
-  return await createNewGame(gameId, "auto", "Public", true);
+  return await createNewGame(
+    gameId,
+    "auto",
+    "Public",
+    true,
+    undefined,
+    undefined,
+    true
+  );
 }
 
 export async function createNewGame(
@@ -144,7 +151,7 @@ export async function submitGuess(
   imageString: string,
   description: string,
   prevGuess: GuessAndId
-): Promise<boolean> {
+): Promise<string | boolean> {
   const imageFilename = firestoreAutoId() + ".jpeg";
   const res = await saveImage(imageString, imageFilename);
 
@@ -168,7 +175,11 @@ export async function submitGuess(
       userId
     );
 
-    return status;
+    if (status) {
+      return guessId;
+    }
+
+    return false;
   }
   return false;
 }
