@@ -34,6 +34,7 @@ export async function generateImage(
   // TODO: use latent consistent image gen
   // source: https://docs.getimg.ai/reference/postlatentconsistencyimagetoimage
   const data = {
+
     model: "stable-diffusion-v1-5",
     prompt: prompt,
     negative_prompt: "Disfigured, cartoon, blurry",
