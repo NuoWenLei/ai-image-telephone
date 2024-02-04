@@ -55,7 +55,11 @@ export default function Creative() {
     <>
       {pageState == "Load" && <div>Loading...</div>}
       {pageState == "Daily" && (
-        <GameClient game={dailyGameAndId!} prevGuess={gameGuessAndId!} />
+        <GameClient
+          game={dailyGameAndId!}
+          prevGuess={gameGuessAndId!}
+          captionPrompt="Try to add something new to the image!"
+        />
       )}
       {pageState == "Init" && initGameId && (
         <InitGameClient

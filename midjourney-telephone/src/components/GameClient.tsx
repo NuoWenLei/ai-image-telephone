@@ -25,9 +25,14 @@ import Swipes from "./Swipes";
 interface GameClientProp {
   game: GameAndId;
   prevGuess: GuessAndId;
+  captionPrompt: string;
 }
 
-export default function GameClient({ game, prevGuess }: GameClientProp) {
+export default function GameClient({
+  game,
+  prevGuess,
+  captionPrompt,
+}: GameClientProp) {
   const [img, setImg] = useState<string | null>(null);
   const [inputState, setInputState] = useState<string>("");
   const [guessed, setGuessed] = useState<boolean>(false);
@@ -168,7 +173,7 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
             <p>Loading...</p>
           </div>
         )}
-        {!guessed || game.game.allowReplay ? (
+        {!guessed ? (
           <>
             <div className="flex flex-col w-1/2 bg-black ring-[6px] ring-white rounded-lg outline-none p-2 mt-3">
               <textarea
@@ -178,7 +183,7 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
                 className={
                   "w-full h-[8vh] text-sm bg-black bg-transparent outline-none resize-none p-2 duration-150 text-white "
                 }
-                placeholder="Describe this image..."
+                placeholder={captionPrompt}
               ></textarea>
               <div className="flex flex-row w-full h-[2vh] text-xs justify-between">
                 <p>{`Length must be >${DESCRIPTION_MIN_LEN} and <${DESCRIPTION_MAX_LEN} characters`}</p>

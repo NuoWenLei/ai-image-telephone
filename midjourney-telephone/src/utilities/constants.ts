@@ -31,9 +31,9 @@ export const CREATIVE_DIFFUSION_SETTINGS: DiffusionSettings = {
   steps: 6,
 };
 
-// export const CREATIVE_DIFFUSION_SETTINGS: DiffusionSettings = {
-//   model: "stable-diffusion-v1-5",
-//   negative_prompt: "Disfigured, cartoon, blurry",
-//   strength: 0.99,
-//   steps: 6,
-// };
+export const F_IT_UP_DIFFUSION_SETTINGS: DiffusionSettings = {
+  model: "stable-diffusion-v1-5",
+  negative_prompt: "Disfigured, cartoon, blurry",
+  strength: 0.99,
+  steps: 6,
+};

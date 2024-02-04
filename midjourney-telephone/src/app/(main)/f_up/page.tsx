@@ -2,12 +2,12 @@
 
 import GameClient from "@/components/GameClient";
 import InitGameClient from "@/components/InitGameClient";
-import { SURVIVAL_DIFFUSION_SETTINGS } from "@/utilities/constants";
+import { F_IT_UP_DIFFUSION_SETTINGS } from "@/utilities/constants";
 import { getGameAndActiveThreads } from "@/utilities/firebase/firebaseReadFunctions";
 import { GameAndId, GuessAndId } from "@/utilities/types";
 import { useEffect, useState } from "react";
 
-export default function Survival() {
+export default function Fup() {
   const [pageState, setPageState] = useState<"Load" | "Init" | "Daily">("Load");
   const [gameGuessAndId, setGameGuessAndId] = useState<GuessAndId | null>(null);
   const [dailyGameAndId, setDailyGameAndId] = useState<GameAndId | null>(null);
@@ -17,7 +17,7 @@ export default function Survival() {
     (async () => {
       const d = new Date();
       const dateString = d.toISOString().split("T")[0];
-      const gameId = `survival_${dateString}`;
+      const gameId = `f_it_up_${dateString}`;
 
       let dailyGame = await getGameAndActiveThreads(gameId);
 
@@ -58,13 +58,13 @@ export default function Survival() {
         <GameClient
           game={dailyGameAndId!}
           prevGuess={gameGuessAndId!}
-          captionPrompt="Try to describe this image in detail!"
+          captionPrompt="Try to f*ck it up!"
         />
       )}
       {pageState == "Init" && initGameId && (
         <InitGameClient
           gameId={initGameId}
-          diffusionSettings={SURVIVAL_DIFFUSION_SETTINGS}
+          diffusionSettings={F_IT_UP_DIFFUSION_SETTINGS}
         />
       )}
     </>

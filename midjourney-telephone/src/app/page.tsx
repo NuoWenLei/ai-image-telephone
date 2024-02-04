@@ -133,7 +133,7 @@ export default function Home() {
       </div>
       <button
         className={"w-1/3 h-1/4 my-14" + classes3}
-        onClick={() => checkLogin("/fup")}
+        onClick={() => checkLogin("/f_up")}
         disabled={loading}
       >
         <span className="mx-auto">TRY TO F*CK IT UP</span>
