@@ -22,6 +22,9 @@ export default function Home() {
   const classes2 = ` mx-auto outline-none rounded-lg ring-[8px] ring-white bg-gradient-to-r from-transparent to-indigo-500
   text-center flex flex-col justify-center hover:bg-white hover:text-black duration-150 `;
 
+  const classes3 = ` mx-auto outline-none rounded-lg ring-[8px] ring-white bg-gradient-to-t from-transparent to-amber-500
+  text-center flex flex-col justify-center hover:bg-white hover:text-black duration-150 `;
+
   async function checkJoin() {
     setLoading(true);
 
@@ -97,7 +100,7 @@ export default function Home() {
 
   return (
     <main className="flex h-[90vh] w-screen flex-col justify-center pb-4 text-white font-bold text-4xl">
-      <div className="w-1/3 h-2/3 flex flex-row mx-auto gap-14">
+      <div className="w-1/3 h-1/3 flex flex-row mx-auto gap-14">
         <button
           className={"w-2/3 h-full " + classes2}
           onClick={() => checkLogin("/creative")}
@@ -128,6 +131,13 @@ export default function Home() {
           </button>
         </div> */}
       </div>
+      <button
+        className={"w-1/3 h-1/4 my-14" + classes3}
+        onClick={() => checkLogin("/fup")}
+        disabled={loading}
+      >
+        <span className="mx-auto">TRY TO F*CK IT UP</span>
+      </button>
     </main>
   );
 }
