@@ -1,3 +1,5 @@
+"use client";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -7,7 +9,13 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 import { useState } from "react";
 
-export default function swipes(urls: string[], prompts: string[]) {
+export default function Swipes({
+  urls,
+  prompts,
+}: {
+  urls: string[];
+  prompts: string[];
+}) {
   const [imageClicked, setImageClicked] = useState<boolean>(false);
   function onClick() {
     setImageClicked(!imageClicked);
@@ -27,18 +35,20 @@ export default function swipes(urls: string[], prompts: string[]) {
       >
         {urls.map((item, index) => (
           <SwiperSlide key={item}>
-            <div className="flex flex-row justify-center m-12 rounded-lg overflow-hidden">
-              <button className="border-white-100" onClick={onClick}>
-                {imageClicked ? (
-                  <p>{prompts[index]}</p>
-                ) : (
+            <div className="h-full w-full flex flex-row justify-center item-center rounded-lg overflow-hidden">
+              {imageClicked ? (
+                <button className="border-white-100" onClick={onClick}>
+                  <p className="text-white text-xl">{prompts[index]}</p>
+                </button>
+              ) : (
+                <button className="border-white-100" onClick={onClick}>
                   <img
                     src={item}
                     alt="Image 1"
                     className="rounded-lg overflow-hidden hover:opacity-60 hover:brightness-110 transition"
                   />
-                )}
-              </button>
+                </button>
+              )}
             </div>
           </SwiperSlide>
         ))}

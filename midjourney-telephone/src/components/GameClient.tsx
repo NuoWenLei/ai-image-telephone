@@ -20,7 +20,7 @@ import {
   DESCRIPTION_MAX_LEN,
   DESCRIPTION_MIN_LEN,
 } from "@/utilities/constants";
-import swipes from "./swipes";
+import Swipes from "./Swipes";
 
 interface GameClientProp {
   game: GameAndId;
@@ -162,7 +162,7 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
             alt="generated image"
           />
         ) : img && slideshowResults && slideshowPrompts ? (
-          swipes(slideshowResults, slideshowPrompts)
+          <Swipes urls={slideshowResults} prompts={slideshowPrompts} />
         ) : (
           <div className="h-96 w-96 text-center flex flex-col justify-center">
             <p>Loading...</p>
