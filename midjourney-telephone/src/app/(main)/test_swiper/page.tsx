@@ -17,6 +17,8 @@ import "swiper/css/navigation";
 
 import { Pagination, Navigation } from "swiper/modules";
 
+import swipes from "@/components/swipes";
+
 export default function Page() {
   //   const [loading, setLoading] = useState<boolean>(false);
   //   const [inputState, setInputState] = useState<string>("");
@@ -110,6 +112,7 @@ export default function Page() {
     },
   ];
 
+  console.log(imageUrls);
   return (
     // <div className="flex flex-col h-full justify-center gap-4">
     //   <div className="swiper">
@@ -131,26 +134,6 @@ export default function Page() {
     //   </div>
     // </div>
 
-    <div className="h-[calc(100vh-5rem)] w-screen flex flex-col justify-center">
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={30}
-        loop={true}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
-        className="h-5/6 w-3/4 bg-[#b5c2bc] [&_.swiper-pagination-bullet-active]:bg-[#333827] [&_.swiper-button-prev]:text-[#333827] [&_.swiper-button-next]:text-[#333827]"
-      >
-        {data.map((project) => (
-          <SwiperSlide key={project.id}>
-            <div className="flex flex-row h-full place-items-center px-12">
-              <img src={project.image} alt="Image 1" />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+    swipes(imageUrls)
   );
 }
