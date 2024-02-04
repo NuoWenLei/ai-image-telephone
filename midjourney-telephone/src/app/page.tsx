@@ -2,7 +2,7 @@
 
 import { AuthContext } from "@/utilities/firebase/firebaseAuthProvider";
 import { useContext, useState } from "react";
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { onLogin } from "@/utilities/firebase/firebaseFunctions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -10,14 +10,16 @@ import { getFirestoreDoc } from "@/utilities/firebase/firebaseReadFunctions";
 import { Game } from "@/utilities/types";
 
 export default function Home() {
-
   const [loading, setLoading] = useState<boolean>(false);
   const [gameIdInput, setGameIdInput] = useState<string>("");
 
   const authState = useContext(AuthContext);
   const router = useRouter();
 
-  const classes = ` mx-auto outline-none rounded-lg ring-[8px] ring-white 
+  const classes1 = ` mx-auto outline-none rounded-lg ring-[8px] ring-white bg-gradient-to-r from-fuchsia-500
+  text-center flex flex-col justify-center hover:bg-white hover:text-black duration-150 `;
+
+  const classes2 = ` mx-auto outline-none rounded-lg ring-[8px] ring-white bg-gradient-to-r from-transparent to-indigo-500
   text-center flex flex-col justify-center hover:bg-white hover:text-black duration-150 `;
 
   async function checkJoin() {
@@ -84,22 +86,33 @@ export default function Home() {
     if (authState.user == null) {
       const status = await onLogin(authState);
       if (!status) {
-      toast.error("Error during Sign-in");
-      setLoading(false);
-      return;
+        toast.error("Error during Sign-in");
+        setLoading(false);
+        return;
       }
     }
-	router.push(path);
-	setLoading(false);
+    router.push(path);
+    setLoading(false);
   }
 
   return (
     <main className="flex h-[90vh] w-screen flex-col justify-center pb-4 text-white font-bold text-4xl">
-      <div className="w-1/3 h-1/3 flex flex-row mx-auto gap-6">
-        <button className={"w-1/3 h-full " + classes} onClick={() => checkLogin("/daily")} disabled={loading}>
-          <span className="mx-auto">DAILY</span>
+      <div className="w-1/3 h-2/3 flex flex-row mx-auto gap-14">
+        <button
+          className={"w-2/3 h-full " + classes2}
+          onClick={() => checkLogin("/daily")}
+          disabled={loading}
+        >
+          <span className="mx-auto">CREATIVE</span>
         </button>
-        <div className="w-2/3 flex flex-col gap-6">
+        <button
+          className={"w-2/3 h-full " + classes1}
+          onClick={() => checkLogin("/daily")}
+          disabled={loading}
+        >
+          <span className="mx-auto">SURVIVAL</span>
+        </button>
+        {/* <div className="w-2/3 flex flex-col gap-6">
           <button className={"w-full h-1/3 text-2xl " + classes} disabled={loading} onClick={() => checkLogin("/create")}>
             <span className="mx-auto">CREATE GAME</span>
           </button>
@@ -113,8 +126,8 @@ export default function Home() {
           <button className={"w-full h-1/3 text-2xl " + classes} disabled={loading} onClick={() => checkLogin("/games")}>
             <span className="mx-auto">FIND GAMES</span>
           </button>
-        </div>
+        </div> */}
       </div>
     </main>
-  )
+  );
 }
