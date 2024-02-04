@@ -2,11 +2,12 @@
 
 import GameClient from "@/components/GameClient";
 import InitGameClient from "@/components/InitGameClient";
+import { CREATIVE_DIFFUSION_SETTINGS } from "@/utilities/constants";
 import { getGameAndActiveThreads } from "@/utilities/firebase/firebaseReadFunctions";
 import { GameAndId, GuessAndId } from "@/utilities/types";
 import { useEffect, useState } from "react";
 
-export default function Daily() {
+export default function Creative() {
   const [pageState, setPageState] = useState<"Load" | "Init" | "Daily">("Load");
   const [gameGuessAndId, setGameGuessAndId] = useState<GuessAndId | null>(null);
   const [dailyGameAndId, setDailyGameAndId] = useState<GameAndId | null>(null);
@@ -16,7 +17,7 @@ export default function Daily() {
     (async () => {
       const d = new Date();
       const dateString = d.toISOString().split("T")[0];
-      const gameId = `daily_${dateString}`;
+      const gameId = `creative_${dateString}`;
 
       let dailyGame = await getGameAndActiveThreads(gameId);
 
@@ -57,7 +58,10 @@ export default function Daily() {
         <GameClient game={dailyGameAndId!} prevGuess={gameGuessAndId!} />
       )}
       {pageState == "Init" && initGameId && (
-        <InitGameClient gameId={initGameId} />
+        <InitGameClient
+          gameId={initGameId}
+          diffusionSettings={CREATIVE_DIFFUSION_SETTINGS}
+        />
       )}
     </>
   );

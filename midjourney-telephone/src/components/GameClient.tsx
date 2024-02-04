@@ -110,7 +110,11 @@ export default function GameClient({ game, prevGuess }: GameClientProp) {
     const base64Image = await generateImage(
       inputState,
       base64EncodedRes,
-      prevGuess.guess.seed
+      prevGuess.guess.seed,
+      game.game.diffusionSettings.strength,
+      game.game.diffusionSettings.steps,
+      game.game.diffusionSettings.model,
+      game.game.diffusionSettings.negative_prompt
     );
 
     if (base64Image) {

@@ -3,8 +3,7 @@ import {
   saveImage,
   updateGameWithGuess,
 } from "./firebase/firebaseWriteFunctions";
-import { Game, GameType, Guess, GuessAndId } from "./types";
-import { bs64image } from "./imageConst";
+import { DiffusionSettings, Game, GameType, Guess, GuessAndId } from "./types";
 
 export const getBase64FromUrl = async (
   url: string
@@ -29,18 +28,22 @@ export async function getRandomImage(): Promise<string> {
 export async function generateImage(
   prompt: string,
   base64_image: string,
-  seed: number = 2
+  seed: number = 2,
+  strength: number = 0.95,
+  steps: number = 6,
+  model: string = "stable-diffusion-v1-5",
+  negative_prompt: string = "Disfigured, cartoon, blurry",
 ) {
   // TODO: use latent consistent image gen
   // source: https://docs.getimg.ai/reference/postlatentconsistencyimagetoimage
   const data = {
-    model: "stable-diffusion-v1-5",
+    model: model,
     prompt: prompt,
-    negative_prompt: "Disfigured, cartoon, blurry",
+    negative_prompt: negative_prompt,
     // width: 640,
     // height: 640,
-    strength: 0.95,
-    steps: 6,
+    strength: strength,
+    steps: steps,
     image: base64_image,
     // guidance: 9,
     seed: seed,
@@ -71,10 +74,10 @@ export async function generateImage(
   return "data:image/jpeg;base64," + resJson.image;
 }
 
-export async function createNewDailyGame(): Promise<Guess | null> {
-  const d = new Date();
-  const dateString = d.toISOString().split("T")[0];
-  const gameId = `daily_${dateString}`;
+export async function createNewDailyGame(
+  gameId: string,
+  diffusionSettings?: DiffusionSettings
+): Promise<Guess | null> {
   return await createNewGame(
     gameId,
     "auto",
@@ -82,7 +85,8 @@ export async function createNewDailyGame(): Promise<Guess | null> {
     true,
     undefined,
     undefined,
-    true
+    true,
+    diffusionSettings
   );
 }
 
@@ -93,7 +97,8 @@ export async function createNewGame(
   randomImage: boolean,
   invitedUsers?: string[],
   description?: string,
-  allowReplay?: boolean
+  allowReplay?: boolean,
+  diffusionSettings?: DiffusionSettings
 ): Promise<Guess | null> {
   let imageString = "";
 
@@ -131,6 +136,14 @@ export async function createNewGame(
       gameType: gameType,
       invitedUsers: invitedUsers == undefined ? [] : invitedUsers,
       allowReplay: allowReplay == undefined ? false : allowReplay,
+      diffusionSettings: diffusionSettings
+        ? diffusionSettings
+        : {
+            model: "stable-diffusion-v1-5",
+            negative_prompt: "Disfigured, cartoon, blurry",
+            strength: 0.95,
+            steps: 6,
+          },
     };
     const initializationRes = await initializeGame(
       newGame,
